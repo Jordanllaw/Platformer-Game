@@ -122,9 +122,14 @@ def instructions_clicks(mode, mouse):
     return mode
 
 # customizations ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def customizations(screen, mouse):
+
+curr_char1 = 0
+curr_char2 = 0
+
+def customizations(screen, mouse, curr1, curr2):
     # getting images of characters
     character_p1 = []
+
     image_path1 = os.path.join(os.getcwd(), 'Assets', 'P1.png')
     image_path2 = os.path.join(os.getcwd(), 'Assets', 'P2.png')
     image_path3 = os.path.join(os.getcwd(), 'Assets', 'P3.png')
@@ -188,16 +193,28 @@ def customizations(screen, mouse):
     settings_button = Button(740, 40, 75, 40, 10, (171, 174, 222), 'set')
     settings_button.create_button(screen, mouse)
 
-    screen.blit(character_p1[1], (140, 220))
+    # selection buttons
+    
 
-def customizations_clicks(mode, mouse):
+    screen.blit(character_p1[curr1], (140, 220))
+    screen.blit(character_p2[curr2], (460, 220))
+
+def customizations_clicks(mode, mouse, curr1, curr2):
     # back button
     if mouse_tact(80, 40, 90, 40, mouse):
         return mouse_click(80, 40, 90, 40, 1, mouse, mode)
     # settings button
     if mouse_tact(740, 40, 75, 40, mouse):
         return mouse_click(740, 40, 75, 40, 2, mouse, mode)
-    return mode
+    if mouse_tact(330, 180, 50, 40, mouse) and curr1 < 2:
+        curr1 += 1
+    if mouse_tact(130, 180, 50, 40, mouse) and curr1 > 0:
+        curr1 -= 1
+    if mouse_tact(660, 180, 50, 40, mouse) and curr2 < 2:
+        curr2 += 1
+    if mouse_tact(460, 180, 50, 40, mouse) and curr2 > 0:
+        curr2 -= 1
+    return (mode, curr1, curr2)
 
 # gameover ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def gameover():
