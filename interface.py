@@ -1,26 +1,127 @@
 # main
 import pygame
+import os
 
+# intro ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def intro():
-    pygame.draw.rect(screen, 'blue', pygame.Rect(200, 200, 100, 100))
-    pygame.display.flip()
+    # background colour - dim purple
+    screen.fill((75, 76, 117))
+
+    # import background image
+    # path = os.path.join(os.getcwd(), 'Assets', 'IntroBG.png')
+    # introBG = pygame.transform.scale(pygame.image.load(path), (screen_width, screen_height))
+    # screen.blit(introBG, (0, 0)) 
+    # pygame.draw.rect(screen, 'blue', pygame.Rect(200, 200, 100, 100))
+
+    # title text
+    pygame.font.init()
+    path = os.path.join(os.getcwd(), 'Assets', 'TitleFont.ttf')
+    title_font = pygame.font.Font(path, 100)
+    title = title_font.render("Name", False, (237, 238, 255))
+    screen.blit(title, (100, 90))
+
+    # play button
+    start_button = Button(270, 250, 250, 40, 10, (171, 174, 222), 'play')
+    start_button.create_button()
+
+    # story button
+    story_button = Button(270, 300, 250, 40, 10, (171, 174, 222), 'story')
+    story_button.create_button()
+
+    # customization button
+    customization_button = Button(270, 350, 250, 40, 10, (171, 174, 222), 'characters')
+    customization_button.create_button()
+
+    # exit button
+    exit_button = Button(270, 400, 250, 40, 10, (171, 174, 222), 'exit')
+    exit_button.create_button()
+
+    # settings button
+    settings_button = Button(740, 40, 75, 40, 10, (171, 174, 222), 'set')
+    settings_button.create_button()
+
+
+def intro_clicks() -> int:
+    # start button
+    if mouse_tact(270, 250, 250, 40):
+        return mouse_click(270, 250, 250, 40, GAME)
+    # story button
+    if mouse_tact(270, 300, 250, 40):
+        return mouse_click(270, 300, 250, 40, INSTRUCTIONS)
+    # customization button
+    if mouse_tact(270, 350, 250, 40):
+        return mouse_click(270, 350, 250, 40, CUSTOMIZATIONS)
+    # exit button
+    if mouse_tact(270, 400, 250, 40):
+        return mouse_click(270, 400, 250, 40, 707)
+    # settings button
+    if mouse_tact(740, 40, 75, 40):
+        return mouse_click(740, 40, 75, 40, SETTINGS)
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def settings():
-    pass
+    screen.fill((0, 0, 255))
 
 def instructions():
-    pass
+    screen.fill((255, 255, 255))
 
 def customizations():
-    pass
+    screen.fill((0, 255, 0))
 
 def game():
-    pass
+    # background colour - dim purple
+    screen.fill((75, 76, 117))
 
 def gameover():
     pass
 
+class Button:
+    x: float
+    y: float
+    w: float
+    h: float
+    corner: float
+    base_colour: tuple[float, float, float]
+    text: str
+
+    def __init__(self, x, y, w, h, corner, base_colour, text):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.corner = corner
+        self.base_colour = base_colour
+        self.text = text
+
+    def create_button(self):
+        button = pygame.Rect(self.x - self.w/2, self.y - self.h/2, self.w, self.h)
+        pygame.draw.rect(screen, self.base_colour, button, 0, self.corner)
+
+        # text creation
+        pygame.font.init()
+        path = os.path.join(os.getcwd(), 'Assets', 'TitleFont.ttf')
+        title_font = pygame.font.Font(path, 20)
+        text = title_font.render(self.text, False, (0, 0, 0))
+        screen.blit(text, (self.x - self.w/2 + 20, self.y - self.h/5))
+
+        # makes button tactile
+        if mouse_tact(self.x, self.y, self.w, self.h):
+            pygame.draw.rect(screen, (255, 255, 255), button, 3, self.corner)
+            text = title_font.render(self.text, False, (255, 255, 255))
+            screen.blit(text, (self.x - self.w/2 + 20, self.y - self.h/5))
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+def mouse_tact(x, y, w, h) -> bool:
+    if (x - w/2 <= mouse[0] <= x + w/2) and (y - h/2 <= mouse[1] <= y + h/2):
+        return True
+    return False
+
+def mouse_click(x, y, w, h, newMode) -> int:
+    if (x - w/2 <= mouse[0] <= x + w/2) and (y - h/2 <= mouse[1] <= y + h/2):
+        if newMode == 707:
+            pygame.quit()
+        return newMode
 
 mode = 0
 INTRO = 1
@@ -54,8 +155,12 @@ while running:
         if event.type == pygame.QUIT: 
             running = False
 
+        mouse = pygame.mouse.get_pos()
+
         if mode == INTRO:
             intro()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mode = intro_clicks()
         elif mode == SETTINGS:
             settings()
         elif mode == INSTRUCTIONS:
@@ -68,3 +173,5 @@ while running:
             gameover()
         else:
             print("Error: Mode = " + str(mode))
+
+        pygame.display.flip()
