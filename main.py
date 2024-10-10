@@ -1,6 +1,7 @@
 # main
 import pygame
 import os
+import interface.py
 
 # initializing game start
 pygame.init()
