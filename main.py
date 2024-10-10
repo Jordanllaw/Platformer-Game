@@ -1,6 +1,7 @@
 # main
 import pygame
 import os
+import baseGame, interface, pickups, player
 import interface, pickups, player, baseGame
 
 mode = 0
@@ -129,5 +130,3 @@ while running:
             interface.gameover()
         else:
             print("Error: Mode = " + str(mode))
-
-        
