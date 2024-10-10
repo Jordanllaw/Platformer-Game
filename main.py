@@ -2,9 +2,20 @@
 import pygame
 import os
 
+# initializing game start
+pygame.init()
+clock = pygame.time.Clock()
+
+# initializing screen
+screen_width = 800
+screen_height = 600
+screen = pygame.display.set_mode((screen_width, screen_height))
+
+screen.fill('white')
+pygame.display.flip()
+
 # Game layout template
 # 40 x 30
-
 layout = [
     '                   43                   ',
     '                   21                   ',
@@ -39,6 +50,13 @@ layout = [
 ]
 
 def setupWorld(layout):
+    # setting game background
+    bg_path = os.path.join(os.getcwd(), 'Assets', 'Platformer Background.png')
+    bg = pygame.transform.scale(pygame.image.load(bg_path), (800, 600))
+    screen.blit(bg, (0, 0))
+    pygame.display.flip()
+
+    # setting transparency
     s = pygame.Surface((600, 800), pygame.SRCALPHA)
     s.fill((64, 81, 100, 200))
     tile_size = 20
@@ -54,27 +72,10 @@ def setupWorld(layout):
                 image = pygame.transform.scale(pygame.image.load(image_path), (20, 20))
                 screen.blit(image, (x, y))
 
-# initializing game start
-pygame.init()
-clock = pygame.time.Clock()
-
-# initializing screen
-screen_width = 800
-screen_height = 600
-screen = pygame.display.set_mode((screen_width, screen_height))
-
-screen.fill('white')
-pygame.display.flip()
-
-bg_path = os.path.join(os.getcwd(), 'Assets', 'Platformer Background.png')
-bg = pygame.transform.scale(pygame.image.load(bg_path), (800, 600))
-screen.blit(bg, (0, 0))
+setupWorld(layout)
 pygame.display.flip()
 
 running = True
-
-setupWorld(layout)
-pygame.display.flip()
 
 while running: 
     
