@@ -300,4 +300,4 @@ while running:
         else:
             print("Error: Mode = " + str(mode))
 
-        pygame.display.flip()
+        # pygame.display.flip()
