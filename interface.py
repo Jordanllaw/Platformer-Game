@@ -194,7 +194,9 @@ def customizations(screen, mouse, curr1, curr2):
     settings_button.create_button(screen, mouse)
 
     # selection buttons
-    
+    pygame.draw.ellipse(screen, (147, 149, 186), (195, 175, 15, 15), 0)
+    pygame.draw.ellipse(screen, (147, 149, 186), (225, 175, 15, 15), 0)
+    pygame.draw.ellipse(screen, (147, 149, 186), (255, 175, 15, 15), 0)
 
     screen.blit(character_p1[curr1], (140, 220))
     screen.blit(character_p2[curr2], (460, 220))
@@ -202,10 +204,10 @@ def customizations(screen, mouse, curr1, curr2):
 def customizations_clicks(mode, mouse, curr1, curr2):
     # back button
     if mouse_tact(80, 40, 90, 40, mouse):
-        return mouse_click(80, 40, 90, 40, 1, mouse, mode)
+        return (mouse_click(80, 40, 90, 40, 1, mouse, mode), curr1, curr2)
     # settings button
     if mouse_tact(740, 40, 75, 40, mouse):
-        return mouse_click(740, 40, 75, 40, 2, mouse, mode)
+        return (mouse_click(740, 40, 75, 40, 2, mouse, mode), curr1, curr2)
     if mouse_tact(330, 180, 50, 40, mouse) and curr1 < 2:
         curr1 += 1
     if mouse_tact(130, 180, 50, 40, mouse) and curr1 > 0:
