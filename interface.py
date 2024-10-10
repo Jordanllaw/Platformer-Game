@@ -29,7 +29,7 @@ def intro(screen, mouse):
     story_button.create_button(screen, mouse)
 
     # customization button
-    customization_button = Button(270, 350, 250, 40, 10, (171, 174, 222), 'characters')
+    customization_button = Button(270, 350, 250, 40, 10, (171, 174, 222), 'customization')
     customization_button.create_button(screen, mouse)
 
     # exit button
@@ -123,6 +123,17 @@ def instructions_clicks(mode, mouse):
 
 # customizations ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def customizations(screen, mouse):
+    # getting images of characters
+    character_p1 = []
+    image_path1 = os.path.join(os.getcwd(), 'Assets', 'P1.png')
+    image_path2 = os.path.join(os.getcwd(), 'Assets', 'P2.png')
+    image_path3 = os.path.join(os.getcwd(), 'Assets', 'P3.png')
+    character_p1.append(pygame.transform.scale(pygame.image.load(image_path1), (200, 200)))
+    character_p1.append(pygame.transform.scale(pygame.image.load(image_path2), (200, 200)))
+    character_p1.append(pygame.transform.scale(pygame.image.load(image_path3), (200, 200)))
+
+    character_p2 = character_p1[:]
+
     # background colour - dim purple
     screen.fill((75, 76, 117))
     
@@ -176,6 +187,8 @@ def customizations(screen, mouse):
     # settings button
     settings_button = Button(740, 40, 75, 40, 10, (171, 174, 222), 'set')
     settings_button.create_button(screen, mouse)
+
+    screen.blit(character_p1[1], (140, 220))
 
 def customizations_clicks(mode, mouse):
     # back button
