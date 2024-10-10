@@ -1,5 +1,6 @@
 import pygame
 import baseGame
+import os
 
 class Player(baseGame.GameObject):
 
@@ -7,48 +8,64 @@ class Player(baseGame.GameObject):
     y: int
     dx: int
     dy: int
-    image_path: str
     char_type: str
     health: int
+    isJump: bool
+    left: bool
+    right: bool
 
-    def __init__(self, x, y, dx, dy, image_path, char_type):
+    def __init__(self, x, y, dx, dy, char_type, screen):
+        self.screen = screen
+        self.isJump = False
+        self.left = False
+        self.right = False
         self.char_type = char_type
+        self.x = x
+        self.y = y
         self.health = 3
         self.inventory = []
         self.idleleft = []
         for i in range(0, 4):
-            self.idleleft.append(pygame.transform.flip(pygame.image.load(os.path.join("Assets", f"{char_type} Idle {i}")), True))
+            self.idleleft.append(pygame.transform.flip(pygame.image.load(os.path.join(os.getcwd(), "Assets", f"{char_type} Idle {i}.png")), True, False))
         self.idleright = []
         for i in range(0, 4):
-            self.idleright.append(pygame.image.load(os.path.join("Assets", f"{char_type} Idle {i}")))
+            self.idleright.append(pygame.image.load(os.path.join(os.getcwd(), "Assets", f"{char_type} Idle {i}.png")))
         self.attackleft = []
         for i in range(0, 4):
-            self.attackleft.append(pygame.transform.flip(pygame.image.load(os.path.join("Assets", f"{char_type} Attack {i}")), True))
+            self.attackleft.append(pygame.transform.flip(pygame.image.load(os.path.join(os.getcwd(), "Assets", f"{char_type} Attack {i}.png")), True, False))
         self.attackright = []
         for i in range(0, 4):
-            self.attackright.append(pygame.image.load(os.path.join("Assets", f"{char_type} Attack {i}")))
+            self.attackright.append(pygame.image.load(os.path.join(os.getcwd(), "Assets", f"{char_type} Attack {i}.png")))
         self.runleft = []
         for i in range(0, 6):
-            self.runleft.append(pygame.transform.flip(pygame.image.load(os.path.join("Assets", f"{char_type} Run {i}")), True))
+            self.runleft.append(pygame.transform.flip(pygame.image.load(os.path.join(os.getcwd(), "Assets", f"{char_type} Run {i}.png")), True, False))
         self.runright = []
         for i in range(0, 6):
-            self.runright.append(pygame.image.load(os.path.join("Assets", f"{char_type} Run {i}")))
+            self.runright.append(pygame.image.load(os.path.join(os.getcwd(), "Assets", f"{char_type} Run {i}.png")))
         self.walkleft = []
         for i in range(0, 6):
-            self.walkleft.append(pygame.transform.flip(pygame.image.load(os.path.join("Assets", f"{char_type} Walk {i}")), True))
+            self.walkleft.append(pygame.transform.flip(pygame.image.load(os.path.join(os.getcwd(), "Assets", f"{char_type} Walk {i}.png")), True, False))
         self.walkright = []
         for i in range(0, 6):
-            self.walkright.append(pygame.image.load(os.path.join("Assets", f"{char_type} Walk {i}")))
+            self.walkright.append(pygame.image.load(os.path.join(os.getcwd(), "Assets", f"{char_type} Walk {i}.png")))
         self.jumpleft = []
         for i in range(0, 8):
-            self.jumpleft.append(pygame.transform.flip(pygame.image.load(os.path.join("Assets", f"{char_type} Jump {i}")), True))
+            self.jumpleft.append(pygame.transform.flip(pygame.image.load(os.path.join(os.getcwd(), "Assets", f"{char_type} Jump {i}.png")), True, False))
         self.jumpright = []
         for i in range(0, 8):
-            self.jumpright.append(pygame.image.load(os.path.join("Assets", f"{char_type} Jump {i}")))
+            self.jumpright.append(pygame.image.load(os.path.join(os.getcwd(), "Assets", f"{char_type} Jump {i}.png")))
+        self.death = []
+        for i in range(0, 7):
+            self.death.append(pygame.image.load(os.path.join(os.getcwd(), "Assets", f"{char_type} Death {i}.png")))
 
-    def die(self, x, y):
-        # animation
-        # drop inventory stuff
+    def pickup(self, object: baseGame.GameObject):
+        self.inventory.append(object)
+
+    def die(self):
+        offset = 0
+        for item in self.inventory:
+            item.show(self.screen, self.x + offset, self.y, 10, 10)
+            offset += 10
         self.inventory = []
         self.health = 3
 
@@ -69,6 +86,8 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 screen.fill('white')
 pygame.display.flip()
+p1 = Player(300, 300, 0, 0, "Pink Monster", screen)
+p1.die()
 
 while running: 
 # for loop through the event queue   
@@ -77,3 +96,4 @@ while running:
         # Check for QUIT event       
         if event.type == pygame.QUIT: 
             running = False
+        pygame.display.flip()

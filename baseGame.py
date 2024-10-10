@@ -3,6 +3,12 @@ import os
 
 class GameObject():
 
+    x: int
+    y: int
+    dx: int
+    dy: int
+    image_path: str
+
     def __init__(self, x, y, dx, dy, image_path):
         self.x = x
         self.y = y
