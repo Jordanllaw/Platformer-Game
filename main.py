@@ -1,7 +1,7 @@
 # main
 import pygame
 import os
-import interface.py
+import baseGame.py, interface.py, pickups.py, player.py
 
 # initializing game start
 pygame.init()
