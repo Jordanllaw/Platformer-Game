@@ -2,6 +2,17 @@
 import pygame
 import os
 import baseGame, interface, pickups, player
+import interface, pickups, player, baseGame
+
+mode = 0
+INTRO = 1
+SETTINGS = 2
+INSTRUCTIONS = 3
+CUSTOMIZATIONS = 4
+GAME = 5
+GAMEOVER = 6
+
+mode = CUSTOMIZATIONS
 
 # initializing game start
 pygame.init()
@@ -13,7 +24,6 @@ screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 screen.fill('white')
-pygame.display.flip()
 
 # Game layout template
 # 40 x 30
@@ -30,7 +40,7 @@ layout = [
     '       MMMMXXXXXXXXXXXXXXXXXXMMMM       ',
     '       XXbbbbbbbbbbbbbbbbbbbbbbXX       ',
     '     ssbb                      bbss     ',
-    '                                        ',
+    'P                                      P',
     'MMMM              MMMM              MMMM',
     'bbbb          MMMMXXXXMMMM          bbbb',
     '              bbbbXXXXbbbb              ',
@@ -55,7 +65,6 @@ def setupWorld(layout):
     bg_path = os.path.join(os.getcwd(), 'Assets', 'Platformer Background.png')
     bg = pygame.transform.scale(pygame.image.load(bg_path), (800, 600))
     screen.blit(bg, (0, 0))
-    pygame.display.flip()
 
     # setting transparency
     s = pygame.Surface((600, 800), pygame.SRCALPHA)
@@ -73,17 +82,54 @@ def setupWorld(layout):
                 image = pygame.transform.scale(pygame.image.load(image_path), (20, 20))
                 screen.blit(image, (x, y))
 
-setupWorld(layout)
-pygame.display.flip()
+# mouse helper functions
+def mouse_tact(x, y, w, h) -> bool:
+    if (x - w/2 <= mouse[0] <= x + w/2) and (y - h/2 <= mouse[1] <= y + h/2):
+        return True
+    return False
+
+def mouse_click(x, y, w, h, newMode) -> int:
+    if (x - w/2 <= mouse[0] <= x + w/2) and (y - h/2 <= mouse[1] <= y + h/2):
+        return newMode
+    return mode
+
+# setupWorld(layout)
 
 running = True
 
 while running: 
-    
 # for loop through the event queue   
     for event in pygame.event.get(): 
-      
+        print("FKLSJDFLKJKLSDJF")
         # Check for QUIT event       
         if event.type == pygame.QUIT: 
             running = False
-    
+
+        mouse = pygame.mouse.get_pos()
+
+        if mode == INTRO:
+            interface.intro()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mode = interface.intro_clicks()
+                if mode == 707:
+                    running = False
+        elif mode == SETTINGS:
+            interface.settings()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mode = interface.settings_clicks()
+        elif mode == INSTRUCTIONS:
+            interface.instructions()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mode = interface.instructions_clicks()
+        elif mode == CUSTOMIZATIONS:
+            interface.customizations()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mode = interface.customizations_clicks()
+        elif mode == GAME:
+            interface.game()
+        elif mode == GAMEOVER:
+            interface.gameover()
+        else:
+            print("Error: Mode = " + str(mode))
+
+        
