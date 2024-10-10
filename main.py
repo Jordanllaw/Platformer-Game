@@ -131,5 +131,3 @@ while running:
             interface.gameover()
         else:
             print("Error: Mode = " + str(mode))
-
-        
