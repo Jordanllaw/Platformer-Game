@@ -193,10 +193,38 @@ def customizations(screen, mouse, curr1, curr2):
     settings_button = Button(740, 40, 75, 40, 10, (171, 174, 222), 'set')
     settings_button.create_button(screen, mouse)
 
+    pygame.font.init()
+    path = os.path.join(os.getcwd(), 'Assets', 'TitleFont.ttf')
+    text = pygame.font.Font(path, 20)
+
     # selection buttons
     pygame.draw.ellipse(screen, (147, 149, 186), (195, 175, 15, 15), 0)
     pygame.draw.ellipse(screen, (147, 149, 186), (225, 175, 15, 15), 0)
     pygame.draw.ellipse(screen, (147, 149, 186), (255, 175, 15, 15), 0)
+
+    if (curr1 == 0):
+        pygame.draw.ellipse(screen, (255, 255, 255), (195, 175, 15, 15), 2)
+        screen.blit(text.render("Pink Monster", False, (237, 238, 255)), (155, 515))
+    if (curr1 == 1):
+        pygame.draw.ellipse(screen, (255, 255, 255), (225, 175, 15, 15), 2)
+        screen.blit(text.render("Owlet Monster", False, (237, 238, 255)), (150, 515))
+    if (curr1 == 2):
+        pygame.draw.ellipse(screen, (255, 255, 255), (255, 175, 15, 15), 2)
+        screen.blit(text.render("Dude Monster", False, (237, 238, 255)), (155, 515))
+
+    pygame.draw.ellipse(screen, (147, 149, 186), (525, 175, 15, 15), 0)
+    pygame.draw.ellipse(screen, (147, 149, 186), (555, 175, 15, 15), 0)
+    pygame.draw.ellipse(screen, (147, 149, 186), (585, 175, 15, 15), 0)
+
+    if (curr2 == 0):
+        pygame.draw.ellipse(screen, (255, 255, 255), (525, 175, 15, 15), 2)
+        screen.blit(text.render("Pink Monster", False, (237, 238, 255)), (490, 515))
+    if (curr2 == 1):
+        pygame.draw.ellipse(screen, (255, 255, 255), (555, 175, 15, 15), 2)
+        screen.blit(text.render("Owlet Monster", False, (237, 238, 255)), (485, 515))
+    if (curr2 == 2):
+        pygame.draw.ellipse(screen, (255, 255, 255), (585, 175, 15, 15), 2)
+        screen.blit(text.render("Dude Monster", False, (237, 238, 255)), (490, 515))
 
     screen.blit(character_p1[curr1], (140, 220))
     screen.blit(character_p2[curr2], (460, 220))
