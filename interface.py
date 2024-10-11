@@ -75,17 +75,21 @@ def settings(screen, mouse):
     volume_display = pygame.Rect(90, 185, 600, 120)
     pygame.draw.rect(screen, (165, 167, 199), volume_display, 0, 20)
 
+    pygame.draw.line(screen, (75, 76, 117), (120, 230), (660, 230), 4)
+
     sfx_display = pygame.Rect(90, 335, 600, 120)
     pygame.draw.rect(screen, (165, 167, 199), sfx_display, 0, 20)
 
+    pygame.draw.line(screen, (0, 0, 0), (120, 230), (660, 230), 4)
+
     # back button
-    back_button = Button(80, 40, 90, 40, 10, (165, 167, 199), 'home')
+    back_button = Button(70, 40, 90, 40, 10, (165, 167, 199), 'home')
     back_button.create_button(screen, mouse)
 
 def settings_clicks(mode, mouse) -> int:
     # back button
-    if mouse_tact(80, 40, 90, 40, mouse):
-        return mouse_click(80, 40, 90, 40, 1, mouse, mode)
+    if mouse_tact(70, 40, 90, 40, mouse):
+        return mouse_click(70, 40, 90, 40, 1, mouse, mode)
     return mode
 
 # instructions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -101,11 +105,11 @@ def instructions(screen, mouse):
     screen.blit(title, (80, 70))
 
     # main display
-    main_display = pygame.Rect(90, 150, 600, 330)
+    main_display = pygame.Rect(90, 150, 600, 400)
     pygame.draw.rect(screen, (165, 167, 199), main_display, 0, 20)
 
     # back button
-    back_button = Button(80, 40, 90, 40, 10, (165, 167, 199), 'home')
+    back_button = Button(70, 40, 90, 40, 10, (165, 167, 199), 'home')
     back_button.create_button(screen, mouse)
 
     # settings button
@@ -114,8 +118,8 @@ def instructions(screen, mouse):
 
 def instructions_clicks(mode, mouse):
     # back button
-    if mouse_tact(80, 40, 90, 40, mouse):
-        return mouse_click(80, 40, 90, 40, 1, mouse, mode)
+    if mouse_tact(70, 40, 90, 40, mouse):
+        return mouse_click(70, 40, 90, 40, 1, mouse, mode)
     # settings button
     if mouse_tact(740, 40, 75, 40, mouse):
         return mouse_click(740, 40, 75, 40, 2, mouse, mode)
@@ -186,7 +190,7 @@ def customizations(screen, mouse, curr1, curr2):
     back_button.create_button(screen, mouse)
 
     # back button
-    back_button = Button(80, 40, 90, 40, 10, (165, 167, 199), 'home')
+    back_button = Button(70, 40, 90, 40, 10, (165, 167, 199), 'home')
     back_button.create_button(screen, mouse)
 
     # settings button
@@ -226,13 +230,13 @@ def customizations(screen, mouse, curr1, curr2):
         pygame.draw.ellipse(screen, (255, 255, 255), (585, 175, 15, 15), 2)
         screen.blit(text.render("Dude Monster", False, (237, 238, 255)), (490, 515))
 
-    screen.blit(character_p1[curr1], (140, 220))
+    screen.blit(character_p1[curr1], (130, 220))
     screen.blit(character_p2[curr2], (460, 220))
 
 def customizations_clicks(mode, mouse, curr1, curr2):
     # back button
-    if mouse_tact(80, 40, 90, 40, mouse):
-        return (mouse_click(80, 40, 90, 40, 1, mouse, mode), curr1, curr2)
+    if mouse_tact(70, 40, 90, 40, mouse):
+        return (mouse_click(70, 40, 90, 40, 1, mouse, mode), curr1, curr2)
     # settings button
     if mouse_tact(740, 40, 75, 40, mouse):
         return (mouse_click(740, 40, 75, 40, 2, mouse, mode), curr1, curr2)
@@ -250,6 +254,7 @@ def customizations_clicks(mode, mouse, curr1, curr2):
 def gameover():
     pass
 
+# Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class Button:
     x: float
     y: float
