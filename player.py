@@ -64,4 +64,7 @@ class Player(GameObject):
                 self.y -= 3
             if self.down_key and self.y < 490:
                 self.y += 3
+
+    def attack(self, screen):
+        
           
