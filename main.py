@@ -13,7 +13,7 @@ CUSTOMIZATIONS = 4
 GAME = 5
 GAMEOVER = 6
 
-mode = GAME
+mode = INTRO
 
 # initializing game start
 pygame.init()
@@ -26,16 +26,17 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 p1 = Player(50, 220, 'Pink Monster', 1)
 p2 = Player(700, 220, 'Dude Monster', 2)
+test = interface.Gif(500, 300, 150, 150, 8, 'Dude Monster Death')
 
 running = True
-baseGame.game(screen)
+counter = 0
 
 while running: 
     screen.fill('white')
     mouse = pygame.mouse.get_pos()
 
     if mode == INTRO:
-        interface.intro(screen, mouse)
+        interface.intro(screen, mouse, counter, test)
 
     elif mode == SETTINGS:
         interface.settings(screen, mouse)
@@ -54,6 +55,8 @@ while running:
 
     else:
         print("Error: Mode = " + str(mode))
+
+    counter += 1
 # for loop through the event queue   
     for event in pygame.event.get():
         # Check for QUIT event       
