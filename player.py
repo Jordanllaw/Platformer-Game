@@ -30,6 +30,9 @@ class Rock(GameObject):
     def summon(self, screen, player):
         screen.blit(self.img, (self.x, self.y))
 
+    def rect(self):
+        return pygame.Rect(self.x, self.y, 20, 20)
+
 class Player(GameObject):
     akey, wkey, dkey, skey, left_key, up_key, right_key, down_key = False, False, False, False, False, False, False, False
     x: float
@@ -47,6 +50,11 @@ class Player(GameObject):
             GameObject.__init__(self, x, y, os.path.join(os.getcwd(), "Assets", "P3.png"))
         self.char_type = char_type
         self.player = player
+        self.health = 4
+        self.death = False
+
+    def rect(self):
+        return pygame.Rect(self.x, self.y, 80, 100)
 
     def show(self, screen):
         GameObject.show(self, screen, self.x, self.y)
@@ -79,4 +87,9 @@ class Player(GameObject):
         rock_item = Rock(self.x, self.y)
         rock_item.summon(screen, self)
         return rock_item
+    
+    def take_hit(self):
+        self.health -= 1
+        if self.health == 0:
+            self.death = True
           

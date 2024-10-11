@@ -61,14 +61,23 @@ while running:
     for obj in p1_rocks[:]:
             obj.x += 5
             screen.blit(obj.img, (obj.x, obj.y))
-            if -10 >= obj.x >= 800:
+            if -20 >= obj.x >= 800:
+                p1_rocks.remove(obj)
+            if obj.rect().colliderect(p2.rect()):
+                p2.take_hit()
                 p1_rocks.remove(obj)
 
     for obj in p2_rocks[:]:
         obj.x -= 5
         screen.blit(obj.img, (obj.x, obj.y))
-        if -10 >= obj.x >= 800:
+        if -20 >= obj.x >= 800:
                 p2_rocks.remove(obj)
+        if obj.rect().colliderect(p1.rect()):
+                p1.take_hit()
+                p2_rocks.remove(obj)
+
+    if p1.death or p2.death:
+        mode = GAMEOVER
 
 # for loop through the event queue   
     for event in pygame.event.get():
