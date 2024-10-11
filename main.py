@@ -27,8 +27,11 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 p1 = Player(50, 220, 'Pink Monster', 1)
 p2 = Player(700, 220, 'Dude Monster', 2)
 
+p1_rocks = []
+p2_rocks = []
+
 running = True
-baseGame.game(screen)
+game.game(screen, p1, p2)
 
 while running: 
     screen.fill('white')
@@ -54,6 +57,19 @@ while running:
 
     else:
         print("Error: Mode = " + str(mode))
+
+    for obj in p1_rocks[:]:
+            obj.x += 5
+            screen.blit(obj.img, (obj.x, obj.y))
+            if -10 >= obj.x >= 800:
+                p1_rocks.remove(obj)
+
+    for obj in p2_rocks[:]:
+        obj.x -= 5
+        screen.blit(obj.img, (obj.x, obj.y))
+        if -10 >= obj.x >= 800:
+                p2_rocks.remove(obj)
+
 # for loop through the event queue   
     for event in pygame.event.get():
         # Check for QUIT event       
@@ -69,6 +85,8 @@ while running:
                 Player.dkey = True
             if event.key == pygame.K_s:
                 Player.skey = True
+            if event.key == pygame.K_q:
+                p1_rocks.append(p1.attack(screen))
             if event.key == pygame.K_LEFT:
                 Player.left_key = True
             if event.key == pygame.K_UP:
@@ -77,6 +95,8 @@ while running:
                 Player.right_key = True
             if event.key == pygame.K_DOWN:
                 Player.down_key = True
+            if event.key == pygame.K_SPACE:
+                p2_rocks.append(p2.attack(screen))
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
@@ -95,6 +115,7 @@ while running:
                 Player.right_key = False
             if event.key == pygame.K_DOWN:
                 Player.down_key = False
+        
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if mode == INTRO:

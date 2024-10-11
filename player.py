@@ -20,6 +20,16 @@ class GameObject():
     def act(self):
         pass
 
+class Rock(GameObject):
+
+    def __init__(self, x, y, im_path=os.path.join(os.getcwd(), "Assets", "Rock2.png")):
+        GameObject.__init__(self, x, y, im_path)
+        self.im_path = im_path
+        self.img = pygame.transform.scale(pygame.image.load(self.im_path), (20, 20))
+
+    def summon(self, screen, player):
+        screen.blit(self.img, (self.x, self.y))
+
 class Player(GameObject):
     akey, wkey, dkey, skey, left_key, up_key, right_key, down_key = False, False, False, False, False, False, False, False
     x: float
@@ -66,5 +76,7 @@ class Player(GameObject):
                 self.y += 3
 
     def attack(self, screen):
-        
+        rock_item = Rock(self.x, self.y)
+        rock_item.summon(screen, self)
+        return rock_item
           
