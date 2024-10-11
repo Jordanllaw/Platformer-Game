@@ -9,7 +9,7 @@ import os
 # pygame.draw.rect(screen, 'blue', pygame.Rect(200, 200, 100, 100))
 
 # intro ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def intro(screen, mouse):
+def intro(screen, mouse, counter, test):
     # background colour - dim purple
     screen.fill((75, 76, 117))
 
@@ -38,8 +38,8 @@ def intro(screen, mouse):
 
     # settings button
     settings_button = Button(740, 40, 75, 40, 10, (171, 174, 222), 'set')
-    settings_button.create_button(screen, mouse)
-
+    settings_button.create_button(screen, mouse)    
+    test.show_once(screen, counter)
 
 def intro_clicks(mode, mouse) -> int:
     # start button
@@ -251,9 +251,10 @@ def customizations_clicks(mode, mouse, curr1, curr2):
     return (mode, curr1, curr2)
 
 # gameover ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def gameover():
-    pass
-
+def gameover(screen):
+    # background colour - dim purple
+    screen.fill((75, 76, 117))
+    
 # Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 class Button:
     x: float
@@ -289,6 +290,37 @@ class Button:
             pygame.draw.rect(screen, (255, 255, 255), button, 3, self.corner)
             text = title_font.render(self.text, False, (255, 255, 255))
             screen.blit(text, (self.x - self.w/2 + 20, self.y - self.h/5))
+
+# GIF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class Gif():
+    x: float
+    y: float
+    w: float
+    h: float
+    speed: float
+    frames: int
+    images: list
+    j: int
+
+    def __init__(self, x, y, w, h, frames, png_type):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.images = []
+        self.counter = 0
+        self.j = 0
+        for i in range(frames):
+            self.images.append(pygame.transform.scale(pygame.image.load(os.path.join("Assets", f"{png_type} {i}.png")), (100, 100)))
+        
+# screen.blit(introBG, (0, 0)) 
+    def show_once(self, screen, counter):
+        print(self.j, counter)
+        screen.blit(self.images[self.j], (self.x, self.y))
+        if counter % 10 == 0:
+            self.j += 1
+        if self.j == len(self.images):
+            self.j = 0
 
 # mouse helper functions
 def mouse_tact(x, y, w, h, mouse) -> bool:
