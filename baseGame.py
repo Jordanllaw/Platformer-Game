@@ -36,12 +36,12 @@ class GameObject():
 
 class Ground(GameObject):
 
-    def __init__(self, x, y, dx, dy, image_path, ground_type):
+    def __init__(self, x, y, dx, dy, image_path):
         self.x = x
         self.y = y
         self.dx = 0
         self.dy = 0
-        self.image_path = os.path.join(os.getcwd(), "Assets", f"{ground_type}.png")
+        self.image_path = image_path
 
 
 # Game layout template
@@ -95,6 +95,7 @@ def setupWorld(screen):
             x, y = col_index * tile_size, row_index * tile_size
             if square == 'X':
                 pygame.draw.rect(screen, (32, 28, 44), pygame.Rect(x, y, 20, 20))
+                ground_pieces.append(Ground(x, y, 0, 0, os.path.join(os.getcwd(), 'Assets', 'M.png')))
             elif square == 'w':
                 screen.blit(s, (x, y), pygame.Rect(x, y, 20, 20))
             elif square != ' ':

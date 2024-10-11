@@ -23,6 +23,11 @@ def check_collision(ob1: GameObject, ob2: GameObject):
         return True
     else:
         return False
+    
+def ground_collision(obj):
+    for ground in baseGame.ground_pieces:
+        if obj.y + 40 == ground.y and ground.x <= obj.x <= ground.x + 20:
+            obj.dy = 5
 
 # initializing game start
 pygame.init()
@@ -33,7 +38,6 @@ screen_width = 800
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
 
-screen.fill('white')
 
 p1 = Player(0, 220, 0, 0, 'Pink Monster', screen, os.path.join(os.getcwd(), "Assets", "P1.png"))
 p2 = Player(760, 220, 0, 0, 'Dude Monster', screen, os.path.join(os.getcwd(), "Assets", "P3.png"))
@@ -41,6 +45,7 @@ p2 = Player(760, 220, 0, 0, 'Dude Monster', screen, os.path.join(os.getcwd(), "A
 running = True
 
 while running: 
+    screen.fill('white')
 # for loop through the event queue   
     for event in pygame.event.get():
         # Check for QUIT event       
@@ -49,21 +54,25 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.type == pygame.K_LEFT:
-                p2.dx = -5
+                p2.dx = -2
             if event.type == pygame.K_RIGHT:
-                p2.dx = 5
+                p2.dx = 2
             if event.key == pygame.K_a:
-                p1.dx = -5
+                p1.dx = -2
             if event.key == pygame.K_d:
-                p1.dx = 5
+                p1.dx = 2
         if event.type == pygame.KEYUP:
             if event.type == pygame.K_LEFT or event.type == pygame.K_RIGHT:
                 p2.dx = 0
             if event.key == pygame.K_a or event.key == pygame.K_d:
                 p1.dx = 0
         
+        ground_collision(p1)
+        ground_collision(p2)
+
         p1.update_position()
         p2.update_position()
+
 
         mouse = pygame.mouse.get_pos()
 
@@ -103,3 +112,4 @@ while running:
         else:
             print("Error: Mode = " + str(mode))
         pygame.display.flip()
+        clock.tick(100)

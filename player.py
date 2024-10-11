@@ -74,3 +74,4 @@ class Player(GameObject):
         self.health -= 1
         if self.health == 0:
             self.die(x, y)
+            
