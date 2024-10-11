@@ -5,7 +5,7 @@ import math
 import interface, pickups
 from player import Player
 from baseGame import GameObject
-from baseGame import game
+import baseGame
 
 mode = 0
 INTRO = 1
@@ -16,6 +16,13 @@ GAME = 5
 GAMEOVER = 6
 
 mode = INTRO
+
+def check_collision(ob1: GameObject, ob2: GameObject):
+    distance = math.sqrt((math.pow(ob1.x - ob2, 2)) + (math.pow(ob1.y - ob2.y, 2)))
+    if distance <= 20:
+        return True
+    else:
+        return False
 
 # initializing game start
 pygame.init()
@@ -30,13 +37,6 @@ screen.fill('white')
 
 p1 = Player(0, 220, 0, 0, 'Pink Monster', screen, os.path.join(os.getcwd(), "Assets", "P1.png"))
 p2 = Player(760, 220, 0, 0, 'Dude Monster', screen, os.path.join(os.getcwd(), "Assets", "P3.png"))
-
-def check_collision(ob1: GameObject, ob2: GameObject):
-    distance = math.sqrt((math.pow(ob1.x - ob2, 2)) + (math.pow(ob1.y - ob2.y, 2)))
-    if distance <= 20:
-        return True
-    else:
-        return False
 
 running = True
 
@@ -93,7 +93,7 @@ while running:
                 interface.curr_char2 = result[2]
 
         elif mode == GAME:
-            game(screen)
+            baseGame.game(screen)
             p1.show(screen, p1.x, p1.y, 40, 40)
             p2.show_flipped(screen, p2.x, p2.y, 40, 40)
 
