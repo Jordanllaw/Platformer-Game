@@ -14,14 +14,34 @@ class GameObject():
         self.y = y
         self.dx = 0
         self.dy = 0
-        self.path = image_path
+        self.image_path = image_path
 
     def show(self, screen, x, y, height, width):
-        screen.blit(pygame.transform.scale(pygame.image.load(self.path), (height, width)), (x, y))
+        screen.blit(pygame.transform.scale(pygame.image.load(self.image_path), (height, width)), (x, y))
+
+    def show_flipped(self, screen, x, y, height, width):
+        screen.blit(pygame.transform.flip(pygame.transform.scale(pygame.image.load(self.image_path), (width, height)), True, False), (x, y))
+
+    def update_position(self):
+        if (self.dx < 0 and self.x > 0) or (self.dx > 0 and self.x < 800):
+            self.x += self.dx
+        elif (self.dy < 0 and self.y > 0) or (self.dy > 0 and self.y < 600):
+            self.y += self.dy
 
     def move(self, dx, dy):
-        self.x += dx
-        self.y += dy
+        if (dx < 0 and self.x > 0) or (dx > 0 and self.x < 800):
+            self.x += dx
+        elif (dy < 0 and self.y > 0) or (dy > 0 and self.y < 600):
+            self.y += dy
+
+class Ground(GameObject):
+
+    def __init__(self, x, y, dx, dy, image_path, ground_type):
+        self.x = x
+        self.y = y
+        self.dx = 0
+        self.dy = 0
+        self.image_path = os.path.join(os.getcwd(), "Assets", f"{ground_type}.png")
 
 
 # Game layout template
@@ -36,10 +56,10 @@ layout = [
     '                                        ',
     ' ssss                              ssss ',
     '           MMwwwwwwwwwwwwwwMM           ',
-    '       MMMMXXXXXXXXXXXXXXXXXXMMMM       ',
-    '       XXbbbbbbbbbbbbbbbbbbbbbbXX       ',
-    '     ssbb                      bbss     ',
-    'P                                      P',
+    '        MMMXXXXXXXXXXXXXXXXXXMMM        ',
+    '        XbbbbbbbbbbbbbbbbbbbbbbX        ',
+    '      sbb                      bbs      ',
+    '                                        ',
     'MMMM              MMMM              MMMM',
     'bbbb          MMMMXXXXMMMM          bbbb',
     '              bbbbXXXXbbbb              ',
@@ -52,13 +72,14 @@ layout = [
     '                MMMXXMMM                ',
     '              MMXXXXXXXXMM              ',
     '              XXbbbbbbbbXX              ',
-    'MMMM        MMXX        XXMM        MMMM',
-    'bbbb        bbbb        bbbb        bbbb',
+    'MMMM        ssbb        bbss        MMMM',
+    'bbbb                                bbbb',
     '                                        ',
     '      MMMM        MMMM        MMMM      ',
     '      XXXX  MMMM  XXXX  MMMM  XXXX      '
 ]
 
+ground_pieces = []
 def setupWorld(screen):
     # setting game background
     bg_path = os.path.join(os.getcwd(), 'Assets', 'Platformer Background.png')
@@ -77,6 +98,7 @@ def setupWorld(screen):
             elif square == 'w':
                 screen.blit(s, (x, y), pygame.Rect(x, y, 20, 20))
             elif square != ' ':
+                ground_pieces.append(Ground(x, y, 0, 0, os.path.join(os.getcwd(), 'Assets', f'{square}.png')))
                 image_path = os.path.join(os.getcwd(), 'Assets', f'{square}.png')
                 image = pygame.transform.scale(pygame.image.load(image_path), (20, 20))
                 screen.blit(image, (x, y))

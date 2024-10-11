@@ -1,8 +1,8 @@
 import pygame
-import baseGame
+from baseGame import GameObject
 import os
 
-class Player(baseGame.GameObject):
+class Player(GameObject):
 
     x: int
     y: int
@@ -13,15 +13,16 @@ class Player(baseGame.GameObject):
     isJump: bool
     left: bool
     right: bool
+    og_ground: bool
 
-    def __init__(self, x, y, dx, dy, char_type, screen):
+    def __init__(self, x, y, dx, dy, char_type, screen, image_path):
+        GameObject.__init__(self, x, y, dx, dy, image_path)
         self.screen = screen
+        self.on_ground = False
         self.isJump = False
         self.left = False
         self.right = False
         self.char_type = char_type
-        self.x = x
-        self.y = y
         self.health = 3
         self.inventory = []
         self.idleleft = []
@@ -58,13 +59,13 @@ class Player(baseGame.GameObject):
         for i in range(0, 7):
             self.death.append(pygame.image.load(os.path.join(os.getcwd(), "Assets", f"{char_type} Death {i}.png")))
 
-    def pickup(self, object: baseGame.GameObject):
+    def pickup(self, object: GameObject):
         self.inventory.append(object)
 
     def die(self):
         offset = 0
         for item in self.inventory:
-            item.show(self.screen, self.x + offset, self.y, 10, 10)
+            item.show(self.screen, self.x + offset, self.y, 20, 20)
             offset += 10
         self.inventory = []
         self.health = 3
@@ -73,27 +74,3 @@ class Player(baseGame.GameObject):
         self.health -= 1
         if self.health == 0:
             self.die(x, y)
-
-running = True
-
-pygame.init()
-clock = pygame.time.Clock()
-
-# initializing screen
-screen_width = 800
-screen_height = 600
-screen = pygame.display.set_mode((screen_width, screen_height))
-
-screen.fill('white')
-pygame.display.flip()
-p1 = Player(300, 300, 0, 0, "Pink Monster", screen)
-p1.die()
-
-while running: 
-# for loop through the event queue   
-    for event in pygame.event.get(): 
-
-        # Check for QUIT event       
-        if event.type == pygame.QUIT: 
-            running = False
-        pygame.display.flip()
