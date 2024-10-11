@@ -16,12 +16,10 @@ class Player(GameObject):
     og_ground: bool
 
     def __init__(self, x, y, dx, dy, char_type, screen, image_path):
-        GameObject.__init__(self, x, y, dx, dy, image_path)
+        GameObject.__init__(self, x, y, image_path)
+        self.dx = dx
+        self.dy = dy
         self.screen = screen
-        self.on_ground = False
-        self.isJump = False
-        self.left = False
-        self.right = False
         self.char_type = char_type
         self.health = 3
         self.inventory = []
@@ -74,4 +72,12 @@ class Player(GameObject):
         self.health -= 1
         if self.health == 0:
             self.die(x, y)
+
+    def update_position(self, dx=0, dy=0):
+        self.dy = min(5, self.dy + 0.1)
+        if (self.dx + dx < 0 and self.x > 0) or (self.dx + dx > 0 and self.x < 800):
+            self.x += self.dx + dx
+        elif (self.dy + dy < 0 and self.y > 0) or (self.dy + dy > 0 and self.y < 600):
+            self.y += self.dy + dy
+
             

@@ -43,9 +43,14 @@ p1 = Player(0, 220, 0, 0, 'Pink Monster', screen, os.path.join(os.getcwd(), "Ass
 p2 = Player(760, 220, 0, 0, 'Dude Monster', screen, os.path.join(os.getcwd(), "Assets", "P3.png"))
 
 running = True
+baseGame.game(screen)
 
 while running: 
     screen.fill('white')
+    baseGame.game(screen)
+
+    p1.show(screen, p1.x, p1.y, 40, 40)
+    p2.show_flipped(screen, p2.x, p2.y, 40, 40)
 # for loop through the event queue   
     for event in pygame.event.get():
         # Check for QUIT event       
@@ -66,50 +71,47 @@ while running:
                 p2.dx = 0
             if event.key == pygame.K_a or event.key == pygame.K_d:
                 p1.dx = 0
-        
-        ground_collision(p1)
-        ground_collision(p2)
 
         p1.update_position()
         p2.update_position()
 
 
-        mouse = pygame.mouse.get_pos()
+        # mouse = pygame.mouse.get_pos()
 
-        if mode == INTRO:
-            interface.intro(screen, mouse)
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mode = interface.intro_clicks(mode, mouse)
-                if mode == 707:
-                    running = False
+        # if mode == INTRO:
+        #     interface.intro(screen, mouse)
+        #     if event.type == pygame.MOUSEBUTTONDOWN:
+        #         mode = interface.intro_clicks(mode, mouse)
+        #         if mode == 707:
+        #             running = False
 
-        elif mode == SETTINGS:
-            interface.settings(screen, mouse)
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mode = interface.settings_clicks(mode, mouse)
+        # elif mode == SETTINGS:
+        #     interface.settings(screen, mouse)
+        #     if event.type == pygame.MOUSEBUTTONDOWN:
+        #         mode = interface.settings_clicks(mode, mouse)
 
-        elif mode == INSTRUCTIONS:
-            interface.instructions(screen, mouse)
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mode = interface.instructions_clicks(mode, mouse)
+        # elif mode == INSTRUCTIONS:
+        #     interface.instructions(screen, mouse)
+        #     if event.type == pygame.MOUSEBUTTONDOWN:
+        #         mode = interface.instructions_clicks(mode, mouse)
 
-        elif mode == CUSTOMIZATIONS:
-            interface.customizations(screen, mouse, interface.curr_char1, interface.curr_char2)
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                result = interface.customizations_clicks(mode, mouse, interface.curr_char1, interface.curr_char2)
-                mode = result[0]
-                interface.curr_char1 = result[1]
-                interface.curr_char2 = result[2]
+        # elif mode == CUSTOMIZATIONS:
+        #     interface.customizations(screen, mouse, interface.curr_char1, interface.curr_char2)
+        #     if event.type == pygame.MOUSEBUTTONDOWN:
+        #         result = interface.customizations_clicks(mode, mouse, interface.curr_char1, interface.curr_char2)
+        #         mode = result[0]
+        #         interface.curr_char1 = result[1]
+        #         interface.curr_char2 = result[2]
 
-        elif mode == GAME:
-            baseGame.game(screen)
-            p1.show(screen, p1.x, p1.y, 40, 40)
-            p2.show_flipped(screen, p2.x, p2.y, 40, 40)
+        # elif mode == GAME:
+        #     baseGame.game(screen)
+        #     p1.show(screen, p1.x, p1.y, 40, 40)
+        #     p2.show_flipped(screen, p2.x, p2.y, 40, 40)
 
-        elif mode == GAMEOVER:
-            interface.gameover()
+        # elif mode == GAMEOVER:
+        #     interface.gameover()
 
-        else:
-            print("Error: Mode = " + str(mode))
+        # else:
+        #     print("Error: Mode = " + str(mode))
+            
         pygame.display.flip()
-        clock.tick(100)
