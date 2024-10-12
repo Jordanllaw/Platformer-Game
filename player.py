@@ -58,7 +58,8 @@ class Player(GameObject):
         return pygame.Rect(self.x, self.y, 80, 100)
 
     def show(self, screen, counter, gif):
-        GameObject.show(self, screen, self.x, self.y)
+        # GameObject.show(self, screen, self.x, self.y)
+        gif.show(screen, counter, self.x, self.y, 2)
 
     def show_flipped(self, screen, counter, gif):
         # GameObject.show_flipped(self, screen, self.x, self.y)
