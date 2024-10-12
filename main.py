@@ -3,6 +3,7 @@ import pygame
 import os
 import math
 import interface, game
+import sys
 from player import Player
 
 mode = 0
@@ -13,7 +14,7 @@ CUSTOMIZATIONS = 4
 GAME = 5
 GAMEOVER = 6
 
-mode = GAME
+mode = GAMEOVER
 
 # initializing game start
 pygame.init()
@@ -43,7 +44,7 @@ while running:
     mouse = pygame.mouse.get_pos()
 
     if mode == INTRO:
-        interface.intro(screen, mouse)
+        interface.intro(screen, mouse, counter, hurt_GIF_dude)
 
     elif mode == SETTINGS:
         interface.settings(screen, mouse)
@@ -58,7 +59,11 @@ while running:
         game.game(screen, p1, p2, counter, run_GIF_dude)
 
     elif mode == GAMEOVER:
-        interface.gameover(screen)
+        if p1.death: 
+            winner = 'Player Two'
+        else:
+            winner = 'Player One'
+        interface.gameover(screen, winner, mouse)
 
     else:
         print("Error: Mode = " + str(mode))
@@ -76,10 +81,10 @@ while running:
         obj.x -= 5
         screen.blit(obj.img, (obj.x, obj.y))
         if -20 >= obj.x >= 800:
-                p2_rocks.remove(obj)
+            p2_rocks.remove(obj)
         if obj.rect().colliderect(p1.rect()):
-                p1.take_hit()
-                p2_rocks.remove(obj)
+            p1.take_hit()
+            p2_rocks.remove(obj)
 
     counter += 1
 
@@ -93,6 +98,7 @@ while running:
         # Check for QUIT event       
         if event.type == pygame.QUIT: 
             running = False
+            sys.exit()
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
@@ -151,6 +157,11 @@ while running:
                 mode = result[0]
                 interface.curr_char1 = result[1]
                 interface.curr_char2 = result[2]
+
+            elif mode == GAMEOVER:
+                mode = interface.gameover_clicks(mode, mouse)
+                if mode == 707:
+                    running = False
             else:
                 print("Error: Mode = " + str(mode))
     pygame.display.update()
