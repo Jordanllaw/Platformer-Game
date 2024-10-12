@@ -5,6 +5,7 @@ import math
 import interface, game
 import sys
 from player import Player
+import random
 
 mode = 0
 INTRO = 1
@@ -14,7 +15,7 @@ CUSTOMIZATIONS = 4
 GAME = 5
 GAMEOVER = 6
 
-mode = GAMEOVER
+mode = INTRO
 
 # initializing game start
 pygame.init()
@@ -27,6 +28,29 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 p1 = Player(50, 220, 'Pink Monster', 1)
 p2 = Player(700, 220, 'Dude Monster', 2)
+
+circle_size = 15
+circle = {'x': random.randrange(circle_size, screen_width - circle_size), 
+          'y': random.randrange(circle_size, screen_height - circle_size),
+          'dx': random.randrange(-3, 3),
+          'dy': random.randrange(-3, 3),
+          'color': 'red'}
+circle1 = {'x': random.randrange(circle_size, screen_width - circle_size), 
+          'y': random.randrange(circle_size, screen_height - circle_size),
+          'dx': random.randrange(-3, 3),
+          'dy': random.randrange(-3, 3),
+          'color': 'red'}
+circle2 = {'x': random.randrange(circle_size, screen_width - circle_size), 
+          'y': random.randrange(circle_size, screen_height - circle_size),
+          'dx': random.randrange(-3, 3),
+          'dy': random.randrange(-3, 3),
+          'color': 'red'}
+circle3 = {'x': random.randrange(circle_size, screen_width - circle_size), 
+          'y': random.randrange(circle_size, screen_height - circle_size),
+          'dx': random.randrange(-3, 3),
+          'dy': random.randrange(-3, 3),
+          'color': 'red'}
+circles = [circle, circle1, circle2, circle3]
 
 p1_rocks = []
 p2_rocks = []
@@ -41,7 +65,7 @@ running = True
 
 while running: 
     screen.fill('white')
-    mouse = pygame.mouse.get_pos()
+    mouse = pygame.mouse.get_pos()  
 
     if mode == INTRO:
         interface.intro(screen, mouse, counter, hurt_GIF_dude)
@@ -57,6 +81,18 @@ while running:
 
     elif mode == GAME:
         game.game(screen, p1, p2, counter, run_GIF_dude)
+        for shape in circles:
+            shape['x'] += shape['dx']
+            shape['y'] += shape['dy']
+
+        # This is where the "Bouncing" happens!
+            if shape['x'] < 0 or shape['x'] > screen_width - circle_size:
+                shape['dx'] *= -1
+            if shape['y'] < 0 or shape['y'] > screen_height - circle_size:
+                shape['dy'] *= -1
+
+            pygame.draw.circle(screen, shape['color'], (shape['x'], shape['y']), circle_size)
+
 
     elif mode == GAMEOVER:
         if p1.death: 
@@ -69,13 +105,13 @@ while running:
         print("Error: Mode = " + str(mode))
 
     for obj in p1_rocks[:]:
-            obj.x += 5
-            screen.blit(obj.img, (obj.x, obj.y))
-            if -20 >= obj.x >= 800:
-                p1_rocks.remove(obj)
-            if obj.rect().colliderect(p2.rect()):
-                p2.take_hit(screen)
-                p1_rocks.remove(obj)
+        obj.x += 5
+        screen.blit(obj.img, (obj.x, obj.y))
+        if -20 >= obj.x >= 800:
+            p1_rocks.remove(obj)
+        if obj.rect().colliderect(p2.rect()):
+            p2.take_hit(screen)
+            p1_rocks.remove(obj)
 
     for obj in p2_rocks[:]:
         obj.x -= 5
