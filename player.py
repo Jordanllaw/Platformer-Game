@@ -20,18 +20,27 @@ class GameObject():
     def act(self):
         pass
 
+class Dot(GameObject):
+
+    def __init__(self, x, y, im_path):
+        GameObject.__init__(self, x, y, im_path)
+
+    def rect(self):
+        return pygame.Rect(self.x, self.y, 10, 10)
+
 class Rock(GameObject):
 
     def __init__(self, x, y, im_path=os.path.join(os.getcwd(), "Assets", "Rock2.png")):
         GameObject.__init__(self, x, y, im_path)
         self.im_path = im_path
         self.img = pygame.transform.scale(pygame.image.load(self.im_path), (20, 20))
+        self.size = 20
 
     def summon(self, screen, player):
         screen.blit(self.img, (self.x, self.y))
 
     def rect(self):
-        return pygame.Rect(self.x, self.y, 20, 20)
+        return pygame.Rect(self.x, self.y, self.size, self.size)
 
 class Player(GameObject):
     akey, wkey, dkey, skey, left_key, up_key, right_key, down_key = False, False, False, False, False, False, False, False
