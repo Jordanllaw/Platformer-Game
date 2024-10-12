@@ -20,6 +20,19 @@ class GameObject():
     def act(self):
         pass
 
+class Rock(GameObject):
+
+    def __init__(self, x, y, im_path=os.path.join(os.getcwd(), "Assets", "Rock2.png")):
+        GameObject.__init__(self, x, y, im_path)
+        self.im_path = im_path
+        self.img = pygame.transform.scale(pygame.image.load(self.im_path), (20, 20))
+
+    def summon(self, screen, player):
+        screen.blit(self.img, (self.x, self.y))
+
+    def rect(self):
+        return pygame.Rect(self.x, self.y, 20, 20)
+
 class Player(GameObject):
     akey, wkey, dkey, skey, left_key, up_key, right_key, down_key = False, False, False, False, False, False, False, False
     x: float
@@ -37,6 +50,11 @@ class Player(GameObject):
             GameObject.__init__(self, x, y, os.path.join(os.getcwd(), "Assets", "P3.png"))
         self.char_type = char_type
         self.player = player
+        self.health = 4
+        self.death = False
+
+    def rect(self):
+        return pygame.Rect(self.x, self.y, 80, 100)
 
     def show(self, screen):
         GameObject.show(self, screen, self.x, self.y)
@@ -65,6 +83,18 @@ class Player(GameObject):
             if self.down_key and self.y < 490:
                 self.y += 3
 
+<<<<<<< HEAD
 
         
+=======
+    def attack(self, screen):
+        rock_item = Rock(self.x, self.y)
+        rock_item.summon(screen, self)
+        return rock_item
+    
+    def take_hit(self):
+        self.health -= 1
+        if self.health == 0:
+            self.death = True
+>>>>>>> 312b84aa68c77f37216e38888b471c408a8becd4
           
