@@ -30,8 +30,13 @@ p2 = Player(700, 220, 'Dude Monster', 2)
 p1_rocks = []
 p2_rocks = []
 
+counter = 0
+
+die_GIF_dude = interface.Gif(p1.x, p1.y, 100, 100, 8, 'Dude Monster Death')
+hurt_GIF_dude = interface.Gif(p2.x, p2.y, 100, 100, 4, 'Dude Monster Hurt')
+run_GIF_dude = interface.Gif(p2.x, p2.y, 100, 100, 6, 'Dude Monster Run')
+
 running = True
-game.game(screen, p1, p2)
 
 while running: 
     screen.fill('white')
@@ -50,7 +55,7 @@ while running:
         interface.customizations(screen, mouse, interface.curr_char1, interface.curr_char2)
 
     elif mode == GAME:
-        game.game(screen, p1, p2)
+        game.game(screen, p1, p2, counter, run_GIF_dude)
 
     elif mode == GAMEOVER:
         interface.gameover()
@@ -64,7 +69,7 @@ while running:
             if -20 >= obj.x >= 800:
                 p1_rocks.remove(obj)
             if obj.rect().colliderect(p2.rect()):
-                p2.take_hit()
+                p2.take_hit(screen)
                 p1_rocks.remove(obj)
 
     for obj in p2_rocks[:]:
@@ -75,6 +80,8 @@ while running:
         if obj.rect().colliderect(p1.rect()):
                 p1.take_hit()
                 p2_rocks.remove(obj)
+
+    counter += 1
 
     if p1.death or p2.death:
         mode = GAMEOVER
@@ -125,7 +132,6 @@ while running:
             if event.key == pygame.K_DOWN:
                 Player.down_key = False
         
-
         if event.type == pygame.MOUSEBUTTONDOWN:
             if mode == INTRO:
                 mode = interface.intro_clicks(mode, mouse)

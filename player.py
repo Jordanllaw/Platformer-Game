@@ -40,6 +40,7 @@ class Player(GameObject):
     char_images: list
     char_type: str
     player: int
+    action: str
 
     def __init__(self, x, y, char_type, player):
         if char_type == 'Pink Monster':
@@ -56,11 +57,12 @@ class Player(GameObject):
     def rect(self):
         return pygame.Rect(self.x, self.y, 80, 100)
 
-    def show(self, screen):
+    def show(self, screen, counter, gif):
         GameObject.show(self, screen, self.x, self.y)
 
-    def show_flipped(self, screen):
-        GameObject.show_flipped(self, screen, self.x, self.y)
+    def show_flipped(self, screen, counter, gif):
+        # GameObject.show_flipped(self, screen, self.x, self.y)
+        gif.show(screen, counter, self.x, self.y, 2)
 
     def act(self):
         if self.player == 1:

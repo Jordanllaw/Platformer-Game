@@ -9,7 +9,7 @@ import os
 # pygame.draw.rect(screen, 'blue', pygame.Rect(200, 200, 100, 100))
 
 # intro ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def intro(screen, mouse, counter, test):
+def intro(screen, mouse, counter, gif):
     # background colour - dim purple
     screen.fill((75, 76, 117))
 
@@ -39,7 +39,7 @@ def intro(screen, mouse, counter, test):
     # settings button
     settings_button = Button(740, 40, 75, 40, 10, (171, 174, 222), 'set')
     settings_button.create_button(screen, mouse)    
-    test.show_once(screen, counter)
+    gif.show(screen, counter)
 
 def intro_clicks(mode, mouse) -> int:
     # start button
@@ -311,12 +311,14 @@ class Gif():
         self.counter = 0
         self.j = 0
         for i in range(frames):
-            self.images.append(pygame.transform.scale(pygame.image.load(os.path.join("Assets", f"{png_type} {i}.png")), (100, 100)))
+            im = pygame.transform.scale(pygame.image.load(os.path.join("Assets", f"{png_type} {i}.png")), (100, 100))
+            self.images.append(pygame.transform.flip(im, True, False))
         
-# screen.blit(introBG, (0, 0)) 
-    def show_once(self, screen, counter):
+    def show(self, screen, counter, x, y, player):
         print(self.j, counter)
-        screen.blit(self.images[self.j], (self.x, self.y))
+        if player == 2:
+            pygame.transform.flip(self.images[self.j], True, False)
+        screen.blit(self.images[self.j], (x, y))
         if counter % 10 == 0:
             self.j += 1
         if self.j == len(self.images):
