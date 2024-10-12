@@ -32,11 +32,7 @@ p1_rocks = []
 p2_rocks = []
 
 running = True
-<<<<<<< HEAD
-counter = 0
-=======
 game.game(screen, p1, p2)
->>>>>>> 312b84aa68c77f37216e38888b471c408a8becd4
 
 while running: 
     screen.fill('white')
@@ -63,9 +59,6 @@ while running:
     else:
         print("Error: Mode = " + str(mode))
 
-<<<<<<< HEAD
-    counter += 1
-=======
     for obj in p1_rocks[:]:
             obj.x += 5
             screen.blit(obj.img, (obj.x, obj.y))
@@ -87,7 +80,6 @@ while running:
     if p1.death or p2.death:
         mode = GAMEOVER
 
->>>>>>> 312b84aa68c77f37216e38888b471c408a8becd4
 # for loop through the event queue   
     for event in pygame.event.get():
         # Check for QUIT event       
