@@ -5,11 +5,11 @@ import math
 import interface, game
 import sys
 from player import Player
+from player import Dot
 import random
 
 mode = 0
 INTRO = 1
-SETTINGS = 2
 INSTRUCTIONS = 3
 CUSTOMIZATIONS = 4
 GAME = 5
@@ -31,27 +31,15 @@ p1 = Player(50, 220, 'Pink Monster', 1)
 p2 = Player(700, 220, 'Dude Monster', 2)
 
 circle_size = 15
-circle = {'x': random.randrange(circle_size, screen_width - circle_size), 
-          'y': random.randrange(circle_size, screen_height - circle_size),
-          'dx': random.randrange(-3, 3),
-          'dy': random.randrange(-3, 3),
-          'color': 'red'}
-circle1 = {'x': random.randrange(circle_size, screen_width - circle_size), 
-          'y': random.randrange(circle_size, screen_height - circle_size),
-          'dx': random.randrange(-3, 3),
-          'dy': random.randrange(-3, 3),
-          'color': 'red'}
-circle2 = {'x': random.randrange(circle_size, screen_width - circle_size), 
-          'y': random.randrange(circle_size, screen_height - circle_size),
-          'dx': random.randrange(-3, 3),
-          'dy': random.randrange(-3, 3),
-          'color': 'red'}
-circle3 = {'x': random.randrange(circle_size, screen_width - circle_size), 
-          'y': random.randrange(circle_size, screen_height - circle_size),
-          'dx': random.randrange(-3, 3),
-          'dy': random.randrange(-3, 3),
-          'color': 'red'}
-circles = [circle, circle1, circle2, circle3]
+num_circles = 10
+dots = []
+for i in range(num_circles):
+    circle = {'x': random.randrange(circle_size, screen_width - circle_size), 
+            'y': random.randrange(circle_size, screen_height - circle_size),
+            'dx': random.randrange(-3, 3),
+            'dy': random.randrange(-3, 3),
+            'colour': (120, 27, 8)}
+    dots.append(Dot(circle['x'], circle['y'], None, circle['dx'], circle['dy'], circle['colour']))
 
 p1_rocks = []
 p2_rocks = []
@@ -71,9 +59,6 @@ while running:
     if mode == INTRO:
         interface.intro(screen, mouse, counter, hurt_GIF_dude)
 
-    elif mode == SETTINGS:
-        interface.settings(screen, mouse)
-
     elif mode == INSTRUCTIONS:
         interface.instructions(screen, mouse)
 
@@ -82,17 +67,23 @@ while running:
 
     elif mode == GAME:
         game.game(screen, p1, p2, counter, run_GIF_dude)
-        for shape in circles:
-            shape['x'] += shape['dx']
-            shape['y'] += shape['dy']
+        for shape in dots[:]:
+            shape.x += shape.dx
+            shape.y += shape.dy
 
-        # This is where the "Bouncing" happens!
-            if shape['x'] < 0 or shape['x'] > screen_width - circle_size:
-                shape['dx'] *= -1
-            if shape['y'] < 0 or shape['y'] > screen_height - circle_size:
-                shape['dy'] *= -1
+            if shape.x < 0 or shape.x > screen_width - circle_size:
+                shape.dx *= -1
+            if shape.y < 0 or shape.y > screen_height - circle_size:
+                shape.dy *= -1
 
-            pygame.draw.circle(screen, shape['color'], (shape['x'], shape['y']), circle_size)
+            if shape.rect().colliderect(p1.rect()):
+                p1.take_hit()
+                dots.remove(shape)
+            if shape.rect().colliderect(p2.rect()):
+                p2.take_hit()
+                dots.remove(shape)
+
+            pygame.draw.circle(screen, shape.colour, (shape.x, shape.y), circle_size)
 
 
     elif mode == GAMEOVER:
@@ -183,9 +174,6 @@ while running:
                 if mode == 707:
                     running = False
 
-            elif mode == SETTINGS:
-                mode = interface.settings_clicks(mode, mouse)
-
             elif mode == INSTRUCTIONS:
                 mode = interface.instructions_clicks(mode, mouse)
 
@@ -194,6 +182,9 @@ while running:
                 mode = result[0]
                 interface.curr_char1 = result[1]
                 interface.curr_char2 = result[2]
+            
+            elif mode == GAME:
+                pass
 
             elif mode == GAMEOVER:
                 mode = interface.gameover_clicks(mode, mouse)

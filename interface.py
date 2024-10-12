@@ -36,11 +36,6 @@ def intro(screen, mouse, counter, gif):
     exit_button = Button(270, 400, 250, 40, 10, (171, 174, 222), 'exit')
     exit_button.create_button(screen, mouse)
 
-    # settings button
-    settings_button = Button(740, 40, 75, 40, 10, (171, 174, 222), 'set')
-    settings_button.create_button(screen, mouse)    
-    # gif.show(screen, counter)
-
 def intro_clicks(mode, mouse) -> int:
     # start button
     if mouse_tact(270, 250, 250, 40, mouse):
@@ -54,42 +49,6 @@ def intro_clicks(mode, mouse) -> int:
     # exit button
     if mouse_tact(270, 400, 250, 40, mouse):
         return mouse_click(270, 400, 250, 40, 707, mouse, mode)
-    # settings button
-    if mouse_tact(740, 40, 75, 40, mouse):
-        return mouse_click(740, 40, 75, 40, 2, mouse, mode)
-    return mode
-
-# settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-def settings(screen, mouse):
-    # background colour - dim purple
-    screen.fill((75, 76, 117))
-
-    # title text
-    pygame.font.init()
-    path = os.path.join(os.getcwd(), 'Assets', 'TitleFont.ttf')
-    title_font = pygame.font.Font(path, 70)
-    title = title_font.render("Settings", False, (237, 238, 255))
-    screen.blit(title, (80, 70))
-
-    volume_display = pygame.Rect(90, 185, 600, 120)
-    pygame.draw.rect(screen, (165, 167, 199), volume_display, 0, 20)
-
-    pygame.draw.line(screen, (75, 76, 117), (120, 230), (660, 230), 4)
-
-    sfx_display = pygame.Rect(90, 335, 600, 120)
-    pygame.draw.rect(screen, (165, 167, 199), sfx_display, 0, 20)
-
-    pygame.draw.line(screen, (0, 0, 0), (120, 230), (660, 230), 4)
-
-    # back button
-    back_button = Button(70, 40, 90, 40, 10, (165, 167, 199), 'home')
-    back_button.create_button(screen, mouse)
-
-def settings_clicks(mode, mouse) -> int:
-    # back button
-    if mouse_tact(70, 40, 90, 40, mouse):
-        return mouse_click(70, 40, 90, 40, 1, mouse, mode)
     return mode
 
 # instructions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -109,20 +68,13 @@ def instructions(screen, mouse):
     pygame.draw.rect(screen, (165, 167, 199), main_display, 0, 20)
 
     # back button
-    back_button = Button(70, 40, 90, 40, 10, (165, 167, 199), 'home')
+    back_button = Button(720, 40, 90, 40, 10, (165, 167, 199), 'home')
     back_button.create_button(screen, mouse)
-
-    # settings button
-    settings_button = Button(740, 40, 75, 40, 10, (171, 174, 222), 'set')
-    settings_button.create_button(screen, mouse)
 
 def instructions_clicks(mode, mouse):
     # back button
-    if mouse_tact(70, 40, 90, 40, mouse):
-        return mouse_click(70, 40, 90, 40, 1, mouse, mode)
-    # settings button
-    if mouse_tact(740, 40, 75, 40, mouse):
-        return mouse_click(740, 40, 75, 40, 2, mouse, mode)
+    if mouse_tact(720, 40, 90, 40, mouse):
+        return mouse_click(720, 40, 90, 40, 1, mouse, mode)
     return mode
 
 # customizations ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -190,12 +142,8 @@ def customizations(screen, mouse, curr1, curr2):
     back_button.create_button(screen, mouse)
 
     # back button
-    back_button = Button(70, 40, 90, 40, 10, (165, 167, 199), 'home')
+    back_button = Button(720, 40, 90, 40, 10, (165, 167, 199), 'home')
     back_button.create_button(screen, mouse)
-
-    # settings button
-    settings_button = Button(740, 40, 75, 40, 10, (171, 174, 222), 'set')
-    settings_button.create_button(screen, mouse)
 
     pygame.font.init()
     path = os.path.join(os.getcwd(), 'Assets', 'TitleFont.ttf')
@@ -235,11 +183,8 @@ def customizations(screen, mouse, curr1, curr2):
 
 def customizations_clicks(mode, mouse, curr1, curr2):
     # back button
-    if mouse_tact(70, 40, 90, 40, mouse):
-        return (mouse_click(70, 40, 90, 40, 1, mouse, mode), curr1, curr2)
-    # settings button
-    if mouse_tact(740, 40, 75, 40, mouse):
-        return (mouse_click(740, 40, 75, 40, 2, mouse, mode), curr1, curr2)
+    if mouse_tact(720, 40, 90, 40, mouse):
+        return (mouse_click(720, 40, 90, 40, 1, mouse, mode), curr1, curr2)
     if mouse_tact(330, 180, 50, 40, mouse) and curr1 < 2:
         curr1 += 1
     if mouse_tact(130, 180, 50, 40, mouse) and curr1 > 0:

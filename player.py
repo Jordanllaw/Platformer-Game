@@ -22,8 +22,11 @@ class GameObject():
 
 class Dot(GameObject):
 
-    def __init__(self, x, y, im_path):
+    def __init__(self, x, y, im_path, dx, dy, colour):
         GameObject.__init__(self, x, y, im_path)
+        self.dx = dx
+        self.dy = dy
+        self.colour = colour
 
     def rect(self):
         return pygame.Rect(self.x, self.y, 10, 10)
