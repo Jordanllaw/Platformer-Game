@@ -83,10 +83,6 @@ class Player(GameObject):
             if self.down_key and self.y < 490:
                 self.y += 3
 
-<<<<<<< HEAD
-
-        
-=======
     def attack(self, screen):
         rock_item = Rock(self.x, self.y)
         rock_item.summon(screen, self)
@@ -96,5 +92,4 @@ class Player(GameObject):
         self.health -= 1
         if self.health == 0:
             self.death = True
->>>>>>> 312b84aa68c77f37216e38888b471c408a8becd4
           

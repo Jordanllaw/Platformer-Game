@@ -13,7 +13,7 @@ CUSTOMIZATIONS = 4
 GAME = 5
 GAMEOVER = 6
 
-mode = INTRO
+mode = GAME
 
 # initializing game start
 pygame.init()
@@ -26,24 +26,19 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 p1 = Player(50, 220, 'Pink Monster', 1)
 p2 = Player(700, 220, 'Dude Monster', 2)
-test = interface.Gif(500, 300, 150, 150, 8, 'Dude Monster Death')
 
 p1_rocks = []
 p2_rocks = []
 
 running = True
-<<<<<<< HEAD
-counter = 0
-=======
 game.game(screen, p1, p2)
->>>>>>> 312b84aa68c77f37216e38888b471c408a8becd4
 
 while running: 
     screen.fill('white')
     mouse = pygame.mouse.get_pos()
 
     if mode == INTRO:
-        interface.intro(screen, mouse, counter, test)
+        interface.intro(screen, mouse)
 
     elif mode == SETTINGS:
         interface.settings(screen, mouse)
@@ -63,9 +58,6 @@ while running:
     else:
         print("Error: Mode = " + str(mode))
 
-<<<<<<< HEAD
-    counter += 1
-=======
     for obj in p1_rocks[:]:
             obj.x += 5
             screen.blit(obj.img, (obj.x, obj.y))
@@ -87,7 +79,6 @@ while running:
     if p1.death or p2.death:
         mode = GAMEOVER
 
->>>>>>> 312b84aa68c77f37216e38888b471c408a8becd4
 # for loop through the event queue   
     for event in pygame.event.get():
         # Check for QUIT event       
