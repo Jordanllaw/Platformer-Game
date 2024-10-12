@@ -16,6 +16,7 @@ GAME = 5
 GAMEOVER = 6
 
 mode = INTRO
+mode = INTRO
 
 # initializing game start
 pygame.init()
@@ -125,6 +126,8 @@ while running:
     counter += 1
 
     if p1.death or p2.death:
+        p1_rocks = []
+        p2_rocks = []
         mode = GAMEOVER
 
 # for loop through the event queue   

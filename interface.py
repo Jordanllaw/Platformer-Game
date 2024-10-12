@@ -327,12 +327,13 @@ class Gif():
         self.j = 0
         for i in range(frames):
             im = pygame.transform.scale(pygame.image.load(os.path.join("Assets", f"{png_type} {i}.png")), (100, 100))
-            self.images.append(pygame.transform.flip(im, True, False))
+            self.images.append(im)
         
     def show(self, screen, counter, x, y, player):
+        im = self.images[self.j]
         if player == 2:
-            pygame.transform.flip(self.images[self.j], True, False)
-        screen.blit(self.images[self.j], (x, y))
+            im = pygame.transform.flip(self.images[self.j], True, False)
+        screen.blit(im, (x, y))
         if counter % 10 == 0:
             self.j += 1
         if self.j == len(self.images):
