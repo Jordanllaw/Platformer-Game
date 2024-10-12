@@ -36,6 +36,8 @@ def intro(screen, mouse, counter, gif):
     exit_button = Button(270, 400, 250, 40, 10, (171, 174, 222), 'exit')
     exit_button.create_button(screen, mouse)
 
+    gif.show(screen, counter, 500, 300, 2)
+
 def intro_clicks(mode, mouse) -> int:
     # start button
     if mouse_tact(270, 250, 250, 40, mouse):
@@ -110,6 +112,7 @@ curr_char2 = 0
 
 def customizations(screen, mouse, curr1, curr2):
     # getting images of characters
+
     character_p1 = []
 
     image_path1 = os.path.join(os.getcwd(), 'Assets', 'P1.png')
@@ -183,13 +186,15 @@ def customizations(screen, mouse, curr1, curr2):
     if (curr1 == 0):
         pygame.draw.ellipse(screen, (255, 255, 255), (195, 175, 15, 15), 2)
         screen.blit(text.render("Pink Monster", False, (237, 238, 255)), (155, 515))
+        p1_type = 'pink'
     if (curr1 == 1):
         pygame.draw.ellipse(screen, (255, 255, 255), (225, 175, 15, 15), 2)
         screen.blit(text.render("Owlet Monster", False, (237, 238, 255)), (150, 515))
+        p1_type = 'owlet'
     if (curr1 == 2):
         pygame.draw.ellipse(screen, (255, 255, 255), (255, 175, 15, 15), 2)
         screen.blit(text.render("Dude Monster", False, (237, 238, 255)), (155, 515))
-
+        p1_type = 'dude'
     pygame.draw.ellipse(screen, (147, 149, 186), (525, 175, 15, 15), 0)
     pygame.draw.ellipse(screen, (147, 149, 186), (555, 175, 15, 15), 0)
     pygame.draw.ellipse(screen, (147, 149, 186), (585, 175, 15, 15), 0)
@@ -197,15 +202,20 @@ def customizations(screen, mouse, curr1, curr2):
     if (curr2 == 0):
         pygame.draw.ellipse(screen, (255, 255, 255), (525, 175, 15, 15), 2)
         screen.blit(text.render("Pink Monster", False, (237, 238, 255)), (490, 515))
+        p2_type = 'pink'
     if (curr2 == 1):
         pygame.draw.ellipse(screen, (255, 255, 255), (555, 175, 15, 15), 2)
         screen.blit(text.render("Owlet Monster", False, (237, 238, 255)), (485, 515))
+        p2_type = 'owlet'
     if (curr2 == 2):
         pygame.draw.ellipse(screen, (255, 255, 255), (585, 175, 15, 15), 2)
         screen.blit(text.render("Dude Monster", False, (237, 238, 255)), (490, 515))
+        p2_type = 'dude'
 
     screen.blit(character_p1[curr1], (130, 220))
     screen.blit(character_p2[curr2], (460, 220))
+    
+    return (p1_type, p2_type)
 
 def customizations_clicks(mode, mouse, curr1, curr2):
     # back button
@@ -222,7 +232,7 @@ def customizations_clicks(mode, mouse, curr1, curr2):
     return (mode, curr1, curr2)
 
 # gameover ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def gameover(screen, winner, mouse):
+def gameover(screen, winner, mouse, counter, gif):
     # background colour - dim purple
     screen.fill((75, 76, 117))
     path = os.path.join(os.getcwd(), 'Assets', 'TitleFont.ttf')
@@ -236,6 +246,8 @@ def gameover(screen, winner, mouse):
     # exit button
     exit_button = Button(270, 400, 250, 40, 10, (171, 174, 222), 'exit')
     exit_button.create_button(screen, mouse)
+
+    gif.show(screen, counter, 500, 300, 2)
 
 def gameover_clicks(mode, mouse):
     if mouse_tact(270, 400, 250, 40, mouse):

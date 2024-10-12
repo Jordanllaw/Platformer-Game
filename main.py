@@ -16,7 +16,6 @@ GAME = 5
 GAMEOVER = 6
 
 mode = INTRO
-mode = INTRO
 
 # initializing game start
 pygame.init()
@@ -27,11 +26,11 @@ screen_width = 800
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
 
-p1 = Player(50, 220, 'Pink Monster', 1)
+p1 = Player(1, 220, 'Pink Monster', 1)
 p2 = Player(700, 220, 'Dude Monster', 2)
 
-circle_size = 15
-num_circles = 10
+circle_size = 6
+num_circles = 7
 dots = []
 for i in range(num_circles):
     circle = {'x': random.randrange(circle_size, screen_width - circle_size), 
@@ -45,10 +44,17 @@ p1_rocks = []
 p2_rocks = []
 
 counter = 0
+counter_p1_act = 0
+counter_p2_act = 0
 
 die_GIF_dude = interface.Gif(p1.x, p1.y, 100, 100, 8, 'Dude Monster Death')
-hurt_GIF_dude = interface.Gif(p2.x, p2.y, 100, 100, 4, 'Dude Monster Hurt')
 run_GIF_dude = interface.Gif(p2.x, p2.y, 100, 100, 6, 'Dude Monster Run')
+run_GIF_dude2 = interface.Gif(p2.x, p2.y, 150, 150, 6, 'Dude Monster Run')
+run_GIF_pink = interface.Gif(p2.x, p2.y, 100, 100, 6, 'Pink Monster Run')
+run_GIF_owlet = interface.Gif(p2.x, p2.y, 100, 100, 6, 'Owlet Monster Run')
+throw_GIF_dude = interface.Gif(p2.x, p2.y, 100, 100, 4, 'Dude Monster Throw')
+throw_GIF_pink = interface.Gif(p2.x, p2.y, 100, 100, 4, 'Pink Monster Throw')
+throw_GIF_owlet = interface.Gif(p2.x, p2.y, 100, 100, 4, 'Owlet Monster Throw')
 
 running = True
 
@@ -57,7 +63,7 @@ while running:
     mouse = pygame.mouse.get_pos()  
 
     if mode == INTRO:
-        interface.intro(screen, mouse, counter, hurt_GIF_dude)
+        interface.intro(screen, mouse, counter, run_GIF_dude2)
 
     elif mode == INSTRUCTIONS:
         interface.instructions(screen, mouse)
@@ -66,7 +72,9 @@ while running:
         interface.customizations(screen, mouse, interface.curr_char1, interface.curr_char2)
 
     elif mode == GAME:
-        game.game(screen, p1, p2, counter, run_GIF_dude)
+        type1 = interface.customizations(screen, mouse, interface.curr_char1, interface.curr_char2)[0]
+        type2 = interface.customizations(screen, mouse, interface.curr_char1, interface.curr_char2)[1]
+        game.game(screen, p1, p2, counter, run_GIF_pink, run_GIF_owlet, run_GIF_dude, throw_GIF_pink, throw_GIF_owlet, throw_GIF_dude, type1, type2)
         for shape in dots[:]:
             shape.x += shape.dx
             shape.y += shape.dy
@@ -91,7 +99,7 @@ while running:
             winner = 'Player Two'
         else:
             winner = 'Player One'
-        interface.gameover(screen, winner, mouse)
+        interface.gameover(screen, winner, mouse, counter, die_GIF_dude)
 
     else:
         print("Error: Mode = " + str(mode))
@@ -102,7 +110,7 @@ while running:
         if -20 >= obj.x >= 800:
             p1_rocks.remove(obj)
         if obj.rect().colliderect(p2.rect()):
-            p2.take_hit(screen)
+            p2.take_hit()
             p1_rocks.remove(obj)
 
     for obj in p2_rocks[:]:
@@ -121,6 +129,16 @@ while running:
         p2_rocks = []
         mode = GAMEOVER
 
+    if p1.action == 'throw':
+        counter_p1_act += 1
+        if counter_p1_act == 40:
+            counter_p1_act = 0
+            p1.action = 'run'
+    if p2.action == 'throw':
+        counter_p2_act += 1
+        if counter_p2_act == 40:
+            counter_p2_act = 0
+            p2.action = 'run'
 # for loop through the event queue   
     for event in pygame.event.get():
         # Check for QUIT event       
@@ -138,7 +156,7 @@ while running:
             if event.key == pygame.K_s:
                 Player.skey = True
             if event.key == pygame.K_q:
-                p1_rocks.append(p1.attack(screen))
+                p1_rocks.append(p1.attack(screen, counter_p1_act))
             if event.key == pygame.K_LEFT:
                 Player.left_key = True
             if event.key == pygame.K_UP:
@@ -148,7 +166,7 @@ while running:
             if event.key == pygame.K_DOWN:
                 Player.down_key = True
             if event.key == pygame.K_SPACE:
-                p2_rocks.append(p2.attack(screen))
+                p2_rocks.append(p2.attack(screen, counter_p2_act))
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:

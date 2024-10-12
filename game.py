@@ -2,9 +2,11 @@ import pygame
 from player import Player
 import os
 
-def game(screen, p1, p2, counter, gif):
+def game(screen, p1, p2, counter, gif, gif2, gif3, gifTh, gifTh2, gifTh3, p1_type, p2_type):
     # background colour - dim purple
     screen.fill((73, 109, 140))
+    im_path = os.path.join(os.getcwd(), 'Assets', 'Background.jpg')
+    screen.blit(pygame.transform.scale(pygame.image.load(im_path), (1200, 1000)), (-200, -200))
 
     pygame.font.init()
     path = os.path.join(os.getcwd(), 'Assets', 'TitleFont.ttf')
@@ -41,8 +43,18 @@ def game(screen, p1, p2, counter, gif):
         health_p2 = pygame.Rect(570, 50, 50, 30)
     pygame.draw.rect(screen, (116, 196, 112), health_p2, 0, 10)
 
-    p1.show(screen, counter, gif)
+    if p1_type == 'pink':
+        p1.show(screen, counter, gif, gifTh)
+    if p1_type == 'owlet':
+        p1.show(screen, counter, gif2, gifTh2)
+    if p1_type == 'dude':
+        p1.show(screen, counter, gif3, gifTh3)
     p1.act()
-    p2.show_flipped(screen, counter, gif)
+    if p2_type == 'pink':
+        p2.show_flipped(screen, counter, gif, gifTh)
+    if p2_type == 'owlet':
+        p2.show_flipped(screen, counter, gif2, gifTh2)
+    if p2_type == 'dude':
+        p2.show_flipped(screen, counter, gif3, gifTh3)
     p2.act()
       

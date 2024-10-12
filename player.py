@@ -65,17 +65,24 @@ class Player(GameObject):
         self.player = player
         self.health = 4
         self.death = False
+        self.action = 'run'
 
     def rect(self):
         return pygame.Rect(self.x, self.y, 80, 100)
 
-    def show(self, screen, counter, gif):
+    def show(self, screen, counter, gif, gifTh):
         # GameObject.show(self, screen, self.x, self.y)
-        gif.show(screen, counter, self.x, self.y, 1)
+        if self.action == 'throw':
+            gifTh.show(screen, counter, self.x, self.y, 1)
+        else:
+            gif.show(screen, counter, self.x, self.y, 1)
 
-    def show_flipped(self, screen, counter, gif):
+    def show_flipped(self, screen, counter, gif, gifTh):
         # GameObject.show_flipped(self, screen, self.x, self.y)
-        gif.show(screen, counter, self.x, self.y, 2)
+        if self.action == 'throw':
+            gifTh.show(screen, counter, self.x, self.y, 2)
+        else:
+            gif.show(screen, counter, self.x, self.y, 2)
 
     def act(self):
         if self.player == 1:
@@ -98,9 +105,11 @@ class Player(GameObject):
             if self.down_key and self.y < 490:
                 self.y += 3
 
-    def attack(self, screen):
-        rock_item = Rock(self.x, self.y)
-        rock_item.summon(screen, self)
+    def attack(self, screen, counter):
+        rock_item = Rock(self.x, self.y + 40)
+        if counter >= 39:
+            rock_item.summon(screen, self)
+        self.action = 'throw'
         return rock_item
     
     def take_hit(self):
