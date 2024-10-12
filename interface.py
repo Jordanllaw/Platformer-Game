@@ -60,12 +60,38 @@ def instructions(screen, mouse):
     pygame.font.init()
     path = os.path.join(os.getcwd(), 'Assets', 'TitleFont.ttf')
     title_font = pygame.font.Font(path, 70)
-    title = title_font.render("Story", False, (237, 238, 255))
+    title = title_font.render("Game Info", False, (237, 238, 255))
     screen.blit(title, (80, 70))
 
     # main display
     main_display = pygame.Rect(90, 150, 600, 400)
     pygame.draw.rect(screen, (165, 167, 199), main_display, 0, 20)
+
+    body_font = pygame.font.Font(path, 20)
+    body0 = body_font.render("Rock Monster is a straight forward multiplayer", False, (0, 0, 0))
+    body1 = body_font.render("with the usual split screen type controls where", False, (0, 0, 0))
+    body2 = body_font.render("one player uses the w, a, s, d, and q keys to ", False, (0, 0, 0))
+    body3 = body_font.render("move up, left, down, right, and shoot,", False, (0, 0, 0))
+    body4 = body_font.render("respectively. Similarly, the second player uses", False, (0, 0, 0))
+    body5 = body_font.render("the up arrow, left arrow, down arrow, right", False, (0, 0, 0))
+    body6 = body_font.render("arrow, and space keys to perform the same", False, (0, 0, 0))
+    body7 = body_font.render("movements. Both attack keys will summon a rock", False, (0, 0, 0))
+    body8 = body_font.render("projectile that flies horizontally towards the", False, (0, 0, 0))
+    body9 = body_font.render("opposite player’s side, dealing damage upon", False, (0, 0, 0))
+    body10 = body_font.render("making contact. In addition to being able", False, (0, 0, 0))
+    body11 = body_font.render("to hit each other, random flying dots will", False, (0, 0, 0))
+    body12 = body_font.render("also deal damage to both players when they’re", False, (0, 0, 0))
+    body13 = body_font.render("touched. These random dots have a random speed", False, (0, 0, 0))
+    body14 = body_font.render("assigned and a random direction, making it bounce", False, (0, 0, 0))
+    body15 = body_font.render("along the walls until it finally hits. The first", False, (0, 0, 0))
+    body16 = body_font.render("player to lose all their health has the privilege", False, (0, 0, 0))
+    body17 = body_font.render(" of crowning their friend victorious.", False, (0, 0, 0))
+    bodies = [body0, body1, body2, body3, body4, body5, body6, body7, body8, body9, body10, body11, body12, body13, body14, body15, body16, body17]
+
+    i = [100, 160]
+    for body in bodies:
+        screen.blit(body, i)
+        i[1] += 20
 
     # back button
     back_button = Button(720, 40, 90, 40, 10, (165, 167, 199), 'home')
