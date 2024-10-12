@@ -18,7 +18,7 @@ def intro(screen, mouse, counter, gif):
     path = os.path.join(os.getcwd(), 'Assets', 'TitleFont.ttf')
     title_font = pygame.font.Font(path, 100)
     title = title_font.render("Rock Monster", False, (237, 238, 255))
-    screen.blit(title, (100, 90))
+    screen.blit(title, (50, 90))
 
     # play button
     start_button = Button(270, 250, 250, 40, 10, (171, 174, 222), 'play')
@@ -39,7 +39,7 @@ def intro(screen, mouse, counter, gif):
     # settings button
     settings_button = Button(740, 40, 75, 40, 10, (171, 174, 222), 'set')
     settings_button.create_button(screen, mouse)    
-    gif.show(screen, counter)
+    # gif.show(screen, counter)
 
 def intro_clicks(mode, mouse) -> int:
     # start button
@@ -251,16 +251,20 @@ def customizations_clicks(mode, mouse, curr1, curr2):
     return (mode, curr1, curr2)
 
 # gameover ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def gameover(screen, winner):
+def gameover(screen, winner, mouse):
     # background colour - dim purple
     screen.fill((75, 76, 117))
     path = os.path.join(os.getcwd(), 'Assets', 'TitleFont.ttf')
     title_font = pygame.font.Font(path, 100)
     title = title_font.render("Gameover", False, (237, 238, 255))
-    end_font = pygame.font.Font(path, 50)
-    end = end_font.render(f"{winner} has won the game!")
+    end_font = pygame.font.Font(path, 30)
+    end = end_font.render(f"{winner} has won the game!", False, (237, 238, 255))
     screen.blit(title, (100, 90))
     screen.blit(end, (100, 200))
+
+    # exit button
+    exit_button = Button(270, 400, 250, 40, 10, (171, 174, 222), 'exit')
+    exit_button.create_button(screen, mouse)
 
 def gameover_clicks(mode, mouse):
     if mouse_tact(270, 400, 250, 40, mouse):

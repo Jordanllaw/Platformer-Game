@@ -59,7 +59,7 @@ class Player(GameObject):
 
     def show(self, screen, counter, gif):
         # GameObject.show(self, screen, self.x, self.y)
-        gif.show(screen, counter, self.x, self.y, 2)
+        gif.show(screen, counter, self.x, self.y, 1)
 
     def show_flipped(self, screen, counter, gif):
         # GameObject.show_flipped(self, screen, self.x, self.y)
