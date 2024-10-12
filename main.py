@@ -58,7 +58,7 @@ while running:
         game.game(screen, p1, p2, counter, run_GIF_dude)
 
     elif mode == GAMEOVER:
-        interface.gameover(screen)
+        interface.gameover()
 
     else:
         print("Error: Mode = " + str(mode))
@@ -69,7 +69,7 @@ while running:
             if -20 >= obj.x >= 800:
                 p1_rocks.remove(obj)
             if obj.rect().colliderect(p2.rect()):
-                p2.take_hit()
+                p2.take_hit(screen)
                 p1_rocks.remove(obj)
 
     for obj in p2_rocks[:]:
@@ -84,8 +84,6 @@ while running:
     counter += 1
 
     if p1.death or p2.death:
-        p1_rocks = []
-        p2_rocks = []
         mode = GAMEOVER
 
 # for loop through the event queue   
